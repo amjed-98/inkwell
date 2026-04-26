@@ -1,4 +1,5 @@
-import type { Metadata } from "next";
+import type { Metadata, MetadataRoute } from "next";
+import { AUTHOR_PROFILE } from "./author";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE } from "./constants";
 import type { CategorySummary, PostDocument, PostSummary } from "./posts";
 
@@ -12,6 +13,13 @@ const AUTHOR = {
 type BreadcrumbItem = {
   name: string;
   path: string;
+};
+
+type SitemapEntryConfig = {
+  changeFrequency: NonNullable<MetadataRoute.Sitemap[number]["changeFrequency"]>;
+  lastModified?: string;
+  path: string;
+  priority: number;
 };
 
 function trimTrailingSlash(value: string) {
@@ -238,4 +246,71 @@ export function buildBreadcrumbJsonLd(items: BreadcrumbItem[]) {
       item: toAbsoluteUrl(item.path),
     })),
   };
+}
+
+function escapeXml(value: string) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&apos;");
+}
+
+export function buildSitemapEntry({
+  changeFrequency,
+  lastModified,
+  path,
+  priority,
+}: SitemapEntryConfig): MetadataRoute.Sitemap[number] {
+  return {
+    url: toAbsoluteUrl(path),
+    lastModified,
+    changeFrequency,
+    priority,
+  };
+}
+
+export function buildRobotsPolicy(): MetadataRoute.Robots {
+  return {
+    rules: [
+      {
+        userAgent: "*",
+        allow: "/",
+        disallow: ["/api/", "/search"],
+      },
+    ],
+    sitemap: toAbsoluteUrl("/sitemap.xml"),
+  };
+}
+
+export function buildRssFeed(posts: PostSummary[]) {
+  const items = posts
+    .map((post) => {
+      const postUrl = toAbsoluteUrl(`/blog/${post.slug}`);
+
+      return `<item>
+<title>${escapeXml(post.title)}</title>
+<description>${escapeXml(post.description)}</description>
+<link>${postUrl}</link>
+<guid>${postUrl}</guid>
+<pubDate>${new Date(post.publishedAt).toUTCString()}</pubDate>
+<category>${escapeXml(post.category)}</category>
+<dc:creator>${escapeXml(post.author.name)}</dc:creator>
+</item>`;
+    })
+    .join("\n");
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<channel>
+<title>${escapeXml(SITE_NAME)}</title>
+<description>${escapeXml(SITE_DESCRIPTION)}</description>
+<link>${toAbsoluteUrl("/blog")}</link>
+<language>en</language>
+<managingEditor>${escapeXml(AUTHOR_PROFILE.name)}</managingEditor>
+<atom:link href="${toAbsoluteUrl("/rss.xml")}" rel="self" type="application/rss+xml" />
+${items}
+</channel>
+</rss>`;
 }
