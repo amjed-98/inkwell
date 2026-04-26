@@ -9,8 +9,8 @@ describe("post content pipeline", () => {
   it("loads local MDX content with frontmatter and reading time metadata", async () => {
     const posts = await getAllPosts();
 
-    expect(posts).toHaveLength(1);
-    expect(posts[0]).toMatchObject({
+    expect(posts).toHaveLength(3);
+    expect(posts[2]).toMatchObject({
       slug: "introducing-inkwell",
       title: "Introducing Inkwell's MDX publishing pipeline",
       author: {
@@ -18,7 +18,7 @@ describe("post content pipeline", () => {
       },
       coverImage: "/images/posts/introducing-inkwell-cover.svg",
     });
-    expect(posts[0].readingTimeMinutes).toBeGreaterThan(0);
+    expect(posts[2].readingTimeMinutes).toBeGreaterThan(0);
 
     const post = await getPostBySlug("introducing-inkwell");
     expect(post?.body).toMatch(/```tsx/);
