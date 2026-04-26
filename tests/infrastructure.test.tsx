@@ -1,3 +1,4 @@
+import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -6,6 +7,16 @@ const packageJsonPath = path.join(repoRoot, "package.json");
 const netlifyConfigPath = path.join(repoRoot, "netlify.toml");
 
 describe("development infrastructure", () => {
+  it("keeps the lint verification step free of warnings", () => {
+    const output = execFileSync("npm", ["run", "lint"], {
+      cwd: repoRoot,
+      encoding: "utf8",
+    });
+
+    expect(output).not.toContain(" warning ");
+    expect(output).toContain("eslint .");
+  });
+
   it("defines the expected quality and deployment scripts", () => {
     const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8")) as {
       scripts?: Record<string, string>;
