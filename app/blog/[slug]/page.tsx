@@ -114,7 +114,7 @@ export default async function PostPage({ params }: PageProps) {
   });
 
   return (
-    <main className="mx-auto w-full max-w-6xl px-6 py-16 sm:px-10 lg:px-12">
+    <main className="mx-auto w-full max-w-6xl px-6 py-16 sm:px-10 lg:px-12" id="content">
       <script
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(buildArticleJsonLd(post)),

@@ -21,7 +21,7 @@ export default async function SearchPage({ searchParams }: PageProps) {
   const initialQuery = resolvedSearchParams.q ?? "";
 
   return (
-    <main className="mx-auto w-full max-w-6xl px-6 py-20 sm:px-10 lg:px-12">
+    <main className="mx-auto w-full max-w-6xl px-6 py-20 sm:px-10 lg:px-12" id="content">
       <div className="max-w-3xl">
         <p className="text-sm font-semibold uppercase tracking-[0.24em] text-blue-600">
           Search archive

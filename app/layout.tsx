@@ -50,7 +50,7 @@ export default function RootLayout({
             Skip to content
           </a>
           <Navbar />
-          <div className="flex-1" id="content">
+          <div className="flex-1">
             {children}
           </div>
           <Footer />

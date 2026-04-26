@@ -53,7 +53,7 @@ export default async function CategoryPage({ params }: PageProps) {
   const description = `A focused archive for ${category.name} essays, implementation notes, and production patterns.`;
 
   return (
-    <main className="mx-auto w-full max-w-6xl px-6 py-20 sm:px-10 lg:px-12">
+    <main className="mx-auto w-full max-w-6xl px-6 py-20 sm:px-10 lg:px-12" id="content">
       <script
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(

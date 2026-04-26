@@ -12,7 +12,10 @@ export const metadata: Metadata = buildHomeMetadata();
 
 export default function Home() {
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-6xl flex-col justify-center px-6 py-20 font-sans sm:px-10 lg:px-12">
+    <main
+      className="mx-auto flex min-h-screen w-full max-w-6xl flex-col justify-center px-6 py-20 font-sans sm:px-10 lg:px-12"
+      id="content"
+    >
       <script
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(buildWebsiteJsonLd()),
