@@ -67,7 +67,7 @@ describe("post reader experience interactions", () => {
     Object.assign(navigator, {
       clipboard: { writeText },
     });
-    window.history.replaceState({}, "", "https://inkwell-demo.netlify.app/blog/introducing-inkwell");
+    window.history.replaceState({}, "", "/blog/introducing-inkwell");
 
     Object.defineProperty(document.documentElement, "scrollHeight", {
       configurable: true,
@@ -149,7 +149,7 @@ describe("post reader experience interactions", () => {
 
     await waitFor(() => {
       expect(writeText).toHaveBeenCalledWith(
-        "https://inkwell-demo.netlify.app/blog/introducing-inkwell",
+        "http://localhost:3000/blog/introducing-inkwell",
       );
     });
   });

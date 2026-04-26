@@ -20,6 +20,12 @@ type PostFrontmatter = {
   title: string;
 };
 
+export type TableOfContentsHeading = {
+  id: string;
+  level: 2 | 3;
+  text: string;
+};
+
 export type PostSummary = PostFrontmatter & {
   publishedAtLabel: string;
   readingTimeMinutes: number;
@@ -29,6 +35,7 @@ export type PostSummary = PostFrontmatter & {
 
 export type PostDocument = PostSummary & {
   body: string;
+  tableOfContents: TableOfContentsHeading[];
 };
 
 export type CategorySummary = {
@@ -55,6 +62,34 @@ function normalizePublishedAt(value: string | Date) {
   return value;
 }
 
+export function slugifyHeading(value: string) {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[`'"’]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function extractTableOfContents(body: string): TableOfContentsHeading[] {
+  const headings: TableOfContentsHeading[] = [];
+  const matches = body.matchAll(/^(##|###)\s+(.+)$/gm);
+
+  for (const match of matches) {
+    const [, marker, rawText] = match;
+    const text = rawText.trim();
+    const level = marker.length as 2 | 3;
+
+    headings.push({
+      id: slugifyHeading(text),
+      level,
+      text,
+    });
+  }
+
+  return headings;
+}
+
 function normalizePost(slug: string, frontmatter: PostFrontmatter, body: string): PostDocument {
   const publishedAt = normalizePublishedAt(frontmatter.publishedAt);
   const stats = readingTime(body);
@@ -70,6 +105,7 @@ function normalizePost(slug: string, frontmatter: PostFrontmatter, body: string)
     publishedAtLabel: formatPublishedDate(publishedAt),
     readingTimeMinutes: Math.max(1, Math.ceil(stats.minutes)),
     slug,
+    tableOfContents: extractTableOfContents(body),
     wordCount: stats.words,
   };
 }
@@ -157,4 +193,28 @@ export async function getPostsByCategory(categorySlug: string): Promise<PostSumm
 export async function getRecentPosts(limit = 3): Promise<PostSummary[]> {
   const posts = await getAllPosts();
   return posts.slice(0, limit);
+}
+
+export async function getRelatedPosts(slug: string, limit = 2): Promise<PostSummary[]> {
+  const currentPost = await getPostBySlug(slug);
+
+  if (!currentPost) {
+    return [];
+  }
+
+  const posts = await getAllPosts();
+
+  return posts
+    .filter((post) => post.slug !== slug)
+    .sort((left, right) => {
+      const leftScore = Number(left.category === currentPost.category);
+      const rightScore = Number(right.category === currentPost.category);
+
+      if (leftScore !== rightScore) {
+        return rightScore - leftScore;
+      }
+
+      return right.publishedAt.localeCompare(left.publishedAt);
+    })
+    .slice(0, limit);
 }
