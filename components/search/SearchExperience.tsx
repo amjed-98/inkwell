@@ -10,6 +10,17 @@ type SearchExperienceProps = {
   items: SearchIndexItem[];
 };
 
+function buildResultsAnnouncement(resultCount: number, query: string) {
+  const resultLabel = `result${resultCount === 1 ? "" : "s"}`;
+  const trimmedQuery = query.trim();
+
+  if (!trimmedQuery) {
+    return `Showing ${resultCount} ${resultLabel}.`;
+  }
+
+  return `Showing ${resultCount} ${resultLabel} for "${trimmedQuery}".`;
+}
+
 function buildSearchUrl(query: string) {
   const trimmedQuery = query.trim();
 
@@ -36,6 +47,7 @@ export function SearchExperience({
 
   const results = useMemo(() => searchPosts(items, query), [items, query]);
   const hasQuery = query.trim().length > 0;
+  const resultsAnnouncement = buildResultsAnnouncement(results.length, query);
 
   return (
     <section className="mt-12 rounded-[2rem] border border-black/8 bg-white p-8 shadow-[0_24px_80px_rgba(15,23,42,0.08)] sm:p-10">
@@ -58,7 +70,9 @@ export function SearchExperience({
         Results update instantly and the query stays reflected in the URL for sharing.
       </p>
       <div className="mt-8 flex items-center justify-between gap-4 text-sm text-neutral-500">
-        <p>{results.length} result{results.length === 1 ? "" : "s"}</p>
+        <p aria-atomic="true" aria-live="polite" role="status">
+          {resultsAnnouncement}
+        </p>
         {hasQuery ? (
           <Link
             className="font-medium text-blue-700 underline decoration-blue-200 underline-offset-4"
