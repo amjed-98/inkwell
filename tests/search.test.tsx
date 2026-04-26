@@ -41,7 +41,9 @@ describe("search discovery", () => {
   });
 
   it("renders search results from the URL query state on the dedicated page", async () => {
-    render(await SearchPage({ searchParams: Promise.resolve({ q: "search" }) }));
+    window.history.replaceState({}, "", "/search?q=search");
+
+    render(await SearchPage({}));
 
     expect(screen.getByRole("main")).toHaveAttribute("id", "content");
     expect(
