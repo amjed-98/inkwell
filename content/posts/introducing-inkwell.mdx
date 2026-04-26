@@ -1,0 +1,29 @@
+---
+title: Introducing Inkwell's MDX publishing pipeline
+description: A first production-shaped article that proves local MDX content, static routing, and editorial rendering can move together.
+publishedAt: 2026-04-26
+category: Editorial systems
+coverImage: /images/posts/introducing-inkwell-cover.svg
+coverImageAlt: Abstract blue editorial cover with layered paper panels.
+author:
+  name: Amjad Yahia
+  role: Frontend engineer and technical writer
+---
+
+Inkwell needs a real post before the broader content platform work is worth scaling. This first article validates the local MDX workflow, the archive route, and the reading experience in one thin vertical slice.
+
+## What the first slice proves
+
+- Local frontmatter can drive route metadata, author attribution, and imagery.
+- Static generation can treat posts as durable build-time assets.
+- Editorial presentation can still support technical content without losing polish.
+
+The post body also needs a code example because copyable blocks are part of the contract for issue `#3`.
+
+```tsx
+export function ReadingTimeBadge({ minutes }: { minutes: number }) {
+  return <span>{minutes} min read</span>;
+}
+```
+
+That small component is enough to verify that code fences render, stay legible, and expose a direct copy affordance for readers skimming implementation details.

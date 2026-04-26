@@ -47,7 +47,7 @@ describe("post content pipeline", () => {
       }),
     ).toBeInTheDocument();
     expect(screen.getByText(/amjad yahia/i)).toBeInTheDocument();
-    expect(screen.getByText(/min read/i)).toBeInTheDocument();
+    expect(screen.getByText("1 min read")).toBeInTheDocument();
     expect(screen.getByAltText(/abstract blue editorial cover/i)).toHaveAttribute(
       "src",
       "/images/posts/introducing-inkwell-cover.svg",
@@ -69,7 +69,7 @@ describe("code block interactions", () => {
 
     render(
       <CodeBlock code={`const message = "inkwell";`} language="tsx">
-        <code>const message = "inkwell";</code>
+        <code>{`const message = "inkwell";`}</code>
       </CodeBlock>,
     );
 
