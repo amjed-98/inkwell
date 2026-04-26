@@ -10,7 +10,7 @@ describe("post content pipeline", () => {
     const posts = await getAllPosts();
 
     expect(posts).toHaveLength(3);
-    expect(posts[2]).toMatchObject({
+    expect(posts[0]).toMatchObject({
       slug: "introducing-inkwell",
       title: "Introducing Inkwell's MDX publishing pipeline",
       author: {
@@ -18,7 +18,7 @@ describe("post content pipeline", () => {
       },
       coverImage: "/images/posts/introducing-inkwell-cover.svg",
     });
-    expect(posts[2].readingTimeMinutes).toBeGreaterThan(0);
+    expect(posts[0].readingTimeMinutes).toBeGreaterThan(0);
 
     const post = await getPostBySlug("introducing-inkwell");
     expect(post?.body).toMatch(/```tsx/);
@@ -27,6 +27,8 @@ describe("post content pipeline", () => {
   it("statically generates the first article route and exposes it from the archive", async () => {
     await expect(generateStaticParams()).resolves.toEqual([
       { slug: "introducing-inkwell" },
+      { slug: "designing-archive-pages-that-carry-their-own-seo-weight" },
+      { slug: "building-a-static-search-experience-that-stays-lightweight" },
     ]);
 
     render(await BlogPage({}));

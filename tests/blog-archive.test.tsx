@@ -21,8 +21,18 @@ describe("blog archive surfaces", () => {
 
     await expect(getAllCategories()).resolves.toEqual([
       {
+        slug: "content-strategy",
+        name: "Content strategy",
+        postCount: 1,
+      },
+      {
         slug: "editorial-systems",
         name: "Editorial systems",
+        postCount: 1,
+      },
+      {
+        slug: "search-experience",
+        name: "Search experience",
         postCount: 1,
       },
     ]);
@@ -52,7 +62,9 @@ describe("blog archive surfaces", () => {
 
   it("statically generates a category archive with metadata and structured data", async () => {
     await expect(generateCategoryStaticParams()).resolves.toEqual([
+      { slug: "content-strategy" },
       { slug: "editorial-systems" },
+      { slug: "search-experience" },
     ]);
 
     await expect(generateBlogMetadata()).resolves.toMatchObject({

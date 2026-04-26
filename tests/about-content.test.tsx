@@ -6,9 +6,9 @@ describe("expanded editorial library", () => {
 
     expect(posts).toHaveLength(3);
     expect(posts.map((post) => post.slug)).toEqual([
+      "introducing-inkwell",
       "designing-archive-pages-that-carry-their-own-seo-weight",
       "building-a-static-search-experience-that-stays-lightweight",
-      "introducing-inkwell",
     ]);
     expect(posts.every((post) => post.author.name === "Amjad Yahia")).toBe(true);
   });

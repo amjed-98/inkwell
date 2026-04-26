@@ -2,6 +2,7 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 import readingTime from "reading-time";
+import { AUTHOR_PROFILE } from "./author";
 
 type Author = {
   name: string;
@@ -46,13 +47,27 @@ function formatPublishedDate(value: string) {
   }).format(new Date(value));
 }
 
+function normalizePublishedAt(value: string | Date) {
+  if (value instanceof Date) {
+    return value.toISOString().slice(0, 10);
+  }
+
+  return value;
+}
+
 function normalizePost(slug: string, frontmatter: PostFrontmatter, body: string): PostDocument {
+  const publishedAt = normalizePublishedAt(frontmatter.publishedAt);
   const stats = readingTime(body);
 
   return {
     ...frontmatter,
+    author: frontmatter.author ?? {
+      name: AUTHOR_PROFILE.name,
+      role: AUTHOR_PROFILE.role,
+    },
     body,
-    publishedAtLabel: formatPublishedDate(frontmatter.publishedAt),
+    publishedAt,
+    publishedAtLabel: formatPublishedDate(publishedAt),
     readingTimeMinutes: Math.max(1, Math.ceil(stats.minutes)),
     slug,
     wordCount: stats.words,
@@ -137,4 +152,9 @@ export async function getCategoryBySlug(slug: string): Promise<CategorySummary |
 export async function getPostsByCategory(categorySlug: string): Promise<PostSummary[]> {
   const posts = await getAllPosts();
   return posts.filter((post) => slugifyCategory(post.category) === categorySlug);
+}
+
+export async function getRecentPosts(limit = 3): Promise<PostSummary[]> {
+  const posts = await getAllPosts();
+  return posts.slice(0, limit);
 }

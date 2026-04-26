@@ -70,8 +70,8 @@ describe("SEO surfaces", () => {
         ],
       },
     });
-    const articleOpenGraph = metadata.openGraph as { publishedTime?: Date } | undefined;
-    expect(articleOpenGraph?.publishedTime).toEqual(new Date("2026-04-26"));
+    const articleOpenGraph = metadata.openGraph as { publishedTime?: string } | undefined;
+    expect(articleOpenGraph?.publishedTime).toBe("2026-04-26");
   });
 
   it("renders article and breadcrumb structured data on the post page", async () => {

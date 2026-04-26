@@ -1,0 +1,23 @@
+---
+title: Building a static search experience that stays lightweight
+description: A practical approach to search pages that feel responsive without shipping full article bodies or introducing server-side search infrastructure.
+publishedAt: 2026-04-22
+category: Search experience
+coverImage: /images/posts/building-a-static-search-experience-cover.svg
+coverImageAlt: Search field overlaying stacked cards and signal lines.
+author:
+  name: Amjad Yahia
+  role: Full-stack engineer, editorial systems builder, and technical writer
+---
+
+Search is often where editorial products quietly lose their performance budget. The easiest implementation is to send too much data to the browser and call it good enough.
+
+## Keep the client index compact
+
+- Titles, descriptions, categories, and tags usually carry enough relevance for a first version.
+- URL-synchronized state matters because search is more useful when the result can be shared.
+- A noindex search route keeps low-value permutations from leaking into the crawl surface.
+
+## Static-first still leaves room for usefulness
+
+The goal is not to mimic a full search engine. The goal is to make discovery fast, predictable, and cheap enough that the rest of the publication can stay mostly server-rendered.
