@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import Home, { metadata as homeMetadata } from "../app/page";
 import AboutPage, { metadata as aboutMetadata } from "../app/about/page";
 import PostPage, { generateMetadata as generatePostMetadata } from "../app/blog/[slug]/page";

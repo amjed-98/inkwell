@@ -6,9 +6,6 @@ import type { CategorySummary, PostDocument, PostSummary } from "./posts";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://inkwell-demo.netlify.app";
 const DEFAULT_OG_IMAGE = "/images/inkwell-og.svg";
 const SITE_TITLE = `${SITE_NAME} | Editorial Next.js SEO Portfolio`;
-const AUTHOR = {
-  name: "Amjad Yahia",
-};
 
 type BreadcrumbItem = {
   name: string;
