@@ -55,6 +55,16 @@ describe("blog archive surfaces", () => {
     ).toHaveAttribute("href", "/blog/category/editorial-systems");
     expect(
       screen.getByRole("link", {
+        name: /editorial systems \(1\)/i,
+      }),
+    ).toHaveAttribute("aria-current", "page");
+    expect(
+      screen.getByRole("link", {
+        name: /all categories/i,
+      }),
+    ).not.toHaveAttribute("aria-current");
+    expect(
+      screen.getByRole("link", {
         name: /clear category filter/i,
       }),
     ).toHaveAttribute("href", "/blog");
