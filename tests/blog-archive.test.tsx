@@ -40,11 +40,9 @@ describe("blog archive surfaces", () => {
   });
 
   it("filters the blog index from the category URL state", async () => {
-    render(
-      await BlogPage({
-        searchParams: Promise.resolve({ category: "editorial-systems" }),
-      }),
-    );
+    window.history.replaceState({}, "", "/blog?category=editorial-systems");
+
+    render(await BlogPage());
 
     expect(screen.getByRole("main")).toHaveAttribute("id", "content");
     expect(screen.getByText(/filtered by editorial systems/i)).toBeInTheDocument();
