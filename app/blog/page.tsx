@@ -103,6 +103,7 @@ export default async function BlogPage({ searchParams }: PageProps) {
       <section aria-label="Categories" className="mt-12">
         <div className="flex flex-wrap gap-3">
           <Link
+            aria-current={activeCategory ? undefined : "page"}
             className="inline-flex items-center rounded-full border border-neutral-300 px-4 py-2 text-sm font-medium text-neutral-700 transition hover:border-neutral-900 hover:text-neutral-950"
             href="/blog"
           >
@@ -110,6 +111,7 @@ export default async function BlogPage({ searchParams }: PageProps) {
           </Link>
           {categories.map((category) => (
             <Link
+              aria-current={activeCategory?.slug === category.slug ? "page" : undefined}
               className="inline-flex items-center rounded-full border border-neutral-300 px-4 py-2 text-sm font-medium text-neutral-700 transition hover:border-neutral-900 hover:text-neutral-950"
               href={`/blog?category=${category.slug}`}
               key={category.slug}
