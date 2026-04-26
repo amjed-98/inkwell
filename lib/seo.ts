@@ -207,6 +207,39 @@ export function buildSearchMetadata(): Metadata {
   };
 }
 
+export function buildAboutMetadata(): Metadata {
+  const canonical = toAbsoluteUrl("/about");
+  const title = `About | ${SITE_NAME}`;
+  const description = AUTHOR_PROFILE.summary;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical,
+    },
+    openGraph: {
+      type: "profile",
+      url: canonical,
+      title,
+      description,
+      siteName: SITE_NAME,
+      images: [
+        {
+          url: toAbsoluteUrl(DEFAULT_OG_IMAGE),
+          alt: `${SITE_NAME} social preview`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [toAbsoluteUrl(DEFAULT_OG_IMAGE)],
+    },
+  };
+}
+
 export function buildWebsiteJsonLd() {
   return {
     "@context": "https://schema.org",
@@ -215,6 +248,22 @@ export function buildWebsiteJsonLd() {
     description: SITE_DESCRIPTION,
     headline: SITE_TAGLINE,
     url: toAbsoluteUrl("/"),
+  };
+}
+
+export function buildPersonJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: AUTHOR_PROFILE.name,
+    jobTitle: AUTHOR_PROFILE.role,
+    description: AUTHOR_PROFILE.summary,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: AUTHOR_PROFILE.location,
+    },
+    url: toAbsoluteUrl("/about"),
+    sameAs: Object.values(AUTHOR_PROFILE.socials),
   };
 }
 

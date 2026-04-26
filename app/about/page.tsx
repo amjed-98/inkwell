@@ -1,12 +1,37 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { AUTHOR_PROFILE } from "../../lib/author";
 import { getRecentPosts } from "../../lib/posts";
+import {
+  buildAboutMetadata,
+  buildBreadcrumbJsonLd,
+  buildPersonJsonLd,
+} from "../../lib/seo";
+
+export const metadata: Metadata = buildAboutMetadata();
 
 export default async function AboutPage() {
   const recentPosts = await getRecentPosts(3);
 
   return (
     <main className="mx-auto w-full max-w-6xl px-6 py-20 sm:px-10 lg:px-12">
+      <script
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(buildPersonJsonLd()),
+        }}
+        type="application/ld+json"
+      />
+      <script
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            buildBreadcrumbJsonLd([
+              { name: "Home", path: "/" },
+              { name: "About", path: "/about" },
+            ]),
+          ),
+        }}
+        type="application/ld+json"
+      />
       <div className="grid gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
         <section className="rounded-[2rem] border border-black/8 bg-white p-8 shadow-[0_24px_80px_rgba(15,23,42,0.08)] sm:p-10">
           <p className="text-sm font-semibold uppercase tracking-[0.24em] text-blue-600">
