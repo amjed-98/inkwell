@@ -110,4 +110,49 @@ describe("search experience interactions", () => {
     ).not.toBeInTheDocument();
     expect(window.location.search).toBe("?q=editorial");
   });
+
+  it("announces live result counts for screen-reader users as the query changes", () => {
+    render(
+      <SearchExperience
+        initialQuery=""
+        items={[
+          {
+            slug: "introducing-inkwell",
+            href: "/blog/introducing-inkwell",
+            title: "Introducing Inkwell's MDX publishing pipeline",
+            description:
+              "A first production-shaped article that proves local MDX content, static routing, and editorial rendering can move together.",
+            category: "Editorial systems",
+            authorName: "Amjad Yahia",
+            publishedAt: "2026-04-26",
+            publishedAtLabel: "April 26, 2026",
+          },
+          {
+            slug: "building-a-static-search-experience-that-stays-lightweight",
+            href: "/blog/building-a-static-search-experience-that-stays-lightweight",
+            title: "Building a static search experience that stays lightweight",
+            description:
+              "A practical approach to search pages that feel responsive without shipping full article bodies or introducing server-side search infrastructure.",
+            category: "Search experience",
+            authorName: "Amjad Yahia",
+            publishedAt: "2026-04-22",
+            publishedAtLabel: "April 22, 2026",
+          },
+        ]}
+      />,
+    );
+
+    const input = screen.getByLabelText(/search posts/i);
+    expect(screen.getByRole("status")).toHaveTextContent("Showing 2 results.");
+
+    fireEvent.change(input, { target: { value: "editorial" } });
+    expect(screen.getByRole("status")).toHaveTextContent(
+      'Showing 1 result for "editorial".',
+    );
+
+    fireEvent.change(input, { target: { value: "missing" } });
+    expect(screen.getByRole("status")).toHaveTextContent(
+      'Showing 0 results for "missing".',
+    );
+  });
 });
