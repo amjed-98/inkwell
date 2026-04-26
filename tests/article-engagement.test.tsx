@@ -51,6 +51,11 @@ describe("article engagement surfaces", () => {
       }),
     ).toHaveAttribute("sizes", "(min-width: 1024px) 768px, 100vw");
     expect(
+      screen.getByRole("img", {
+        name: /abstract blue editorial cover with layered paper panels/i,
+      }),
+    ).toHaveAttribute("fetchpriority", "high");
+    expect(
       screen.getByRole("heading", {
         name: /keep reading/i,
       }),
