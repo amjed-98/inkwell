@@ -154,6 +154,7 @@ export default async function PostPage({ params }: PageProps) {
             <Image
               alt={post.coverImageAlt}
               className="mt-10 w-full rounded-[1.5rem] border border-neutral-200 bg-slate-100"
+              fetchPriority="high"
               height={720}
               sizes="(min-width: 1024px) 768px, 100vw"
               src={post.coverImage}
