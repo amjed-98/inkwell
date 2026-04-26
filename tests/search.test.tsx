@@ -43,6 +43,7 @@ describe("search discovery", () => {
   it("renders search results from the URL query state on the dedicated page", async () => {
     render(await SearchPage({ searchParams: Promise.resolve({ q: "search" }) }));
 
+    expect(screen.getByRole("main")).toHaveAttribute("id", "content");
     expect(
       screen.getByRole("heading", {
         name: /search the inkwell archive/i,

@@ -43,6 +43,7 @@ describe("post content pipeline", () => {
   it("renders the article page with author, reading time, local imagery, and code copy support", async () => {
     render(await PostPage({ params: Promise.resolve({ slug: "introducing-inkwell" }) }));
 
+    expect(screen.getByRole("main")).toHaveAttribute("id", "content");
     expect(
       screen.getByRole("heading", {
         name: /introducing inkwell's mdx publishing pipeline/i,

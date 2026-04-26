@@ -5,6 +5,7 @@ describe("about page", () => {
   it("presents the author profile, social links, and recent writing", async () => {
     render(await AboutPage());
 
+    expect(screen.getByRole("main")).toHaveAttribute("id", "content");
     expect(
       screen.getByRole("heading", {
         name: /amjad yahia builds calm, search-ready products for content-heavy teams/i,

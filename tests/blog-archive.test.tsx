@@ -46,6 +46,7 @@ describe("blog archive surfaces", () => {
       }),
     );
 
+    expect(screen.getByRole("main")).toHaveAttribute("id", "content");
     expect(screen.getByText(/filtered by editorial systems/i)).toBeInTheDocument();
     expect(
       screen.getByRole("link", {
@@ -98,6 +99,7 @@ describe("blog archive surfaces", () => {
         node.textContent?.includes('"@type":"CollectionPage"'),
       ),
     ).toBe(true);
+    expect(screen.getByRole("main")).toHaveAttribute("id", "content");
     expect(
       Array.from(structuredDataScripts).some((node) =>
         node.textContent?.includes('"@type":"BreadcrumbList"'),

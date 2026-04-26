@@ -6,6 +6,7 @@ describe("homepage", () => {
   it("presents Inkwell as an editorial SEO portfolio with primary navigation", () => {
     render(<Home />);
 
+    expect(screen.getByRole("main")).toHaveAttribute("id", "content");
     expect(
       screen.getByRole("heading", {
         name: /writing about the web, one post at a time/i,
