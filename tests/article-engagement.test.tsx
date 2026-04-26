@@ -46,6 +46,11 @@ describe("article engagement surfaces", () => {
     ).toBeInTheDocument();
     expect(screen.getByRole("progressbar", { name: /reading progress/i })).toBeInTheDocument();
     expect(
+      screen.getByRole("img", {
+        name: /abstract blue editorial cover with layered paper panels/i,
+      }),
+    ).toHaveAttribute("sizes", "(min-width: 1024px) 768px, 100vw");
+    expect(
       screen.getByRole("heading", {
         name: /keep reading/i,
       }),
