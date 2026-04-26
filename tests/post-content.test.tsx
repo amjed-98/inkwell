@@ -31,7 +31,7 @@ describe("post content pipeline", () => {
       { slug: "building-a-static-search-experience-that-stays-lightweight" },
     ]);
 
-    render(await BlogPage({}));
+    render(await BlogPage());
 
     expect(
       screen.getByRole("link", {
