@@ -2,7 +2,8 @@ import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
 import SearchPage, { generateMetadata } from "../app/search/page";
 import { SearchExperience } from "../components/search/SearchExperience";
-import { buildSearchIndex, searchPosts } from "../lib/search";
+import { buildSearchIndex } from "../lib/search";
+import { searchPosts } from "../lib/search-shared";
 
 describe("search discovery", () => {
   it("builds a compact metadata-only search index and returns relevant matches", async () => {

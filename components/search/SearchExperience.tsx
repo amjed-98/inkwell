@@ -2,8 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import type { SearchIndexItem } from "../../lib/search";
-import { searchPosts } from "../../lib/search";
+import type { SearchIndexItem } from "../../lib/search-shared";
+import { searchPosts } from "../../lib/search-shared";
 
 type SearchExperienceProps = {
   initialQuery: string;

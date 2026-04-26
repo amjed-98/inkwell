@@ -16,6 +16,7 @@ describe("development infrastructure", () => {
       lint: "eslint .",
       test: "vitest run",
       typecheck: "tsc --noEmit",
+      verify: "npm run lint && npm run typecheck && npm run test && npm run build",
     });
   });
 
@@ -25,5 +26,21 @@ describe("development infrastructure", () => {
     expect(netlifyConfig).toContain("[build]");
     expect(netlifyConfig).toContain('command = "pnpm build"');
     expect(netlifyConfig).toContain('publish = ".next"');
+  });
+
+  it("documents the manual launch verification checklist", () => {
+    const checklistPath = path.join(repoRoot, "docs", "launch-checklist.md");
+    const checklist = fs.readFileSync(checklistPath, "utf8");
+
+    expect(checklist).toContain("# Launch Checklist");
+    expect(checklist).toContain("## Automated verification");
+    expect(checklist).toContain("npm run verify");
+    expect(checklist).toContain("## Manual validation");
+    expect(checklist).toContain("Lighthouse");
+    expect(checklist).toContain("structured data");
+    expect(checklist).toContain("sitemap.xml");
+    expect(checklist).toContain("rss.xml");
+    expect(checklist).toContain("social preview");
+    expect(checklist).toContain("Netlify");
   });
 });
