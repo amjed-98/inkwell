@@ -1,6 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { metadata } from "../app/layout";
+import Loading from "../app/loading";
 import NotFound from "../app/not-found";
 
 describe("application shell", () => {
@@ -27,5 +28,13 @@ describe("application shell", () => {
         name: /browse articles/i,
       }),
     ).toHaveAttribute("href", "/blog");
+  });
+
+  it("announces loading progress for assistive technology", () => {
+    render(<Loading />);
+
+    expect(screen.getByRole("status")).toHaveTextContent(
+      /loading the inkwell shell/i,
+    );
   });
 });
