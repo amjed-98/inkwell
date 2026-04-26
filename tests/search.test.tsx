@@ -43,7 +43,7 @@ describe("search discovery", () => {
   it("renders search results from the URL query state on the dedicated page", async () => {
     window.history.replaceState({}, "", "/search?q=search");
 
-    render(await SearchPage({}));
+    render(await SearchPage());
 
     expect(screen.getByRole("main")).toHaveAttribute("id", "content");
     expect(

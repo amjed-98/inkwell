@@ -3,22 +3,12 @@ import { SearchExperience } from "../../components/search/SearchExperience";
 import { buildSearchIndex } from "../../lib/search";
 import { buildSearchMetadata } from "../../lib/seo";
 
-type PageProps = {
-  searchParams?: Promise<{
-    q?: string;
-  }>;
-};
-
 export async function generateMetadata(): Promise<Metadata> {
   return buildSearchMetadata();
 }
 
-export default async function SearchPage({ searchParams }: PageProps) {
-  const [items, resolvedSearchParams] = await Promise.all([
-    buildSearchIndex(),
-    (searchParams ?? Promise.resolve({})) as Promise<{ q?: string }>,
-  ]);
-  const initialQuery = resolvedSearchParams.q ?? "";
+export default async function SearchPage() {
+  const items = await buildSearchIndex();
 
   return (
     <main className="mx-auto w-full max-w-6xl px-6 py-20 sm:px-10 lg:px-12" id="content">
@@ -34,7 +24,7 @@ export default async function SearchPage({ searchParams }: PageProps) {
           and remains excluded from indexing.
         </p>
       </div>
-      <SearchExperience initialQuery={initialQuery} items={items} />
+      <SearchExperience items={items} />
     </main>
   );
 }

@@ -6,7 +6,7 @@ import type { SearchIndexItem } from "../../lib/search-shared";
 import { searchPosts } from "../../lib/search-shared";
 
 type SearchExperienceProps = {
-  initialQuery: string;
+  initialQuery?: string;
   items: SearchIndexItem[];
 };
 
@@ -35,10 +35,16 @@ export function SearchExperience({
   initialQuery,
   items,
 }: SearchExperienceProps) {
-  const [query, setQuery] = useState(initialQuery);
+  const [query, setQuery] = useState(initialQuery ?? "");
 
   useEffect(() => {
-    setQuery(initialQuery);
+    if (typeof initialQuery === "string") {
+      setQuery(initialQuery);
+      return;
+    }
+
+    const nextQuery = new URLSearchParams(window.location.search).get("q") ?? "";
+    setQuery(nextQuery);
   }, [initialQuery]);
 
   useEffect(() => {
