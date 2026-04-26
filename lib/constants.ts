@@ -7,5 +7,6 @@ export const SITE_DESCRIPTION =
 
 export const PRIMARY_NAV = [
   { href: "/blog", label: "Blog" },
+  { href: "/search", label: "Search" },
   { href: "/about", label: "About" },
 ];

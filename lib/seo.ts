@@ -169,6 +169,44 @@ export function buildCategoryMetadata(category: CategorySummary): Metadata {
   };
 }
 
+export function buildSearchMetadata(): Metadata {
+  const canonical = toAbsoluteUrl("/search");
+  const title = `Search | ${SITE_NAME}`;
+  const description =
+    "Search the Inkwell publication archive with a compact client-side metadata index.";
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical,
+    },
+    robots: {
+      index: false,
+      follow: true,
+    },
+    openGraph: {
+      type: "website",
+      url: canonical,
+      title,
+      description,
+      siteName: SITE_NAME,
+      images: [
+        {
+          url: toAbsoluteUrl(DEFAULT_OG_IMAGE),
+          alt: `${SITE_NAME} social preview`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [toAbsoluteUrl(DEFAULT_OG_IMAGE)],
+    },
+  };
+}
+
 export function buildWebsiteJsonLd() {
   return {
     "@context": "https://schema.org",
