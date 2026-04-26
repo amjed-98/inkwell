@@ -30,6 +30,7 @@ export function ThemeToggle() {
   return (
     <button
       aria-label={`Switch to ${nextTheme} mode`}
+      aria-pressed={theme === "dark"}
       className="inline-flex h-10 items-center justify-center rounded-full border border-[var(--color-border)] px-4 text-sm font-medium text-[var(--color-foreground)] transition hover:border-[var(--color-foreground)]"
       onClick={() => {
         setTheme(nextTheme);
