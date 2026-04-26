@@ -1,6 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import Home, { metadata as homeMetadata } from "../app/page";
+import AboutPage, { metadata as aboutMetadata } from "../app/about/page";
 import PostPage, { generateMetadata as generatePostMetadata } from "../app/blog/[slug]/page";
 
 describe("SEO surfaces", () => {
@@ -38,6 +39,58 @@ describe("SEO surfaces", () => {
     }
     expect(structuredData.textContent).toContain('"url":"https://inkwell-demo.netlify.app/"');
     expect(structuredData.textContent).toContain('"@type":"WebSite"');
+  });
+
+  it("emits about-page metadata and identity structured data", async () => {
+    expect(aboutMetadata).toMatchObject({
+      title: "About | Inkwell",
+      description:
+        "Full-stack engineer focused on editorial systems, technical SEO, and performance-conscious product delivery for content-heavy teams.",
+      alternates: {
+        canonical: "https://inkwell-demo.netlify.app/about",
+      },
+      openGraph: {
+        type: "profile",
+        url: "https://inkwell-demo.netlify.app/about",
+        images: [
+          {
+            url: "https://inkwell-demo.netlify.app/images/inkwell-og.svg",
+          },
+        ],
+      },
+      twitter: {
+        card: "summary_large_image",
+        images: ["https://inkwell-demo.netlify.app/images/inkwell-og.svg"],
+      },
+    });
+
+    const { container } = render(await AboutPage());
+    const structuredDataScripts = container.querySelectorAll(
+      'script[type="application/ld+json"]',
+    );
+    const personStructuredData = Array.from(structuredDataScripts).find((node) =>
+      node.textContent?.includes('"@type":"Person"'),
+    );
+    const breadcrumbStructuredData = Array.from(structuredDataScripts).find((node) =>
+      node.textContent?.includes('"@type":"BreadcrumbList"'),
+    );
+
+    expect(personStructuredData).toBeDefined();
+    expect(breadcrumbStructuredData).toBeDefined();
+    if (!personStructuredData || !breadcrumbStructuredData) {
+      throw new Error("Expected about page structured data scripts");
+    }
+    expect(personStructuredData.textContent).toContain('"name":"Amjad Yahia"');
+    expect(personStructuredData.textContent).toContain(
+      '"url":"https://inkwell-demo.netlify.app/about"',
+    );
+    expect(personStructuredData.textContent).toContain(
+      '"sameAs":["https://github.com/amjed-98","https://www.linkedin.com/in/amjedyahia","https://x.com/amjed_98"]',
+    );
+    expect(breadcrumbStructuredData.textContent).toContain('"name":"About"');
+    expect(breadcrumbStructuredData.textContent).toContain(
+      '"item":"https://inkwell-demo.netlify.app/about"',
+    );
   });
 
   it("emits article metadata with canonical, publish details, and social preview fields", async () => {
