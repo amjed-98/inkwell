@@ -22,6 +22,7 @@ export type PostSummary = PostFrontmatter & {
   publishedAtLabel: string;
   readingTimeMinutes: number;
   slug: string;
+  wordCount: number;
 };
 
 export type PostDocument = PostSummary & {
@@ -39,12 +40,15 @@ function formatPublishedDate(value: string) {
 }
 
 function normalizePost(slug: string, frontmatter: PostFrontmatter, body: string): PostDocument {
+  const stats = readingTime(body);
+
   return {
     ...frontmatter,
     body,
     publishedAtLabel: formatPublishedDate(frontmatter.publishedAt),
-    readingTimeMinutes: Math.max(1, Math.ceil(readingTime(body).minutes)),
+    readingTimeMinutes: Math.max(1, Math.ceil(stats.minutes)),
     slug,
+    wordCount: stats.words,
   };
 }
 

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Footer } from "../components/layout/Footer";
 import { Navbar } from "../components/layout/Navbar";
-import { SITE_DESCRIPTION } from "../lib/constants";
+import { buildHomeMetadata, getSiteUrl } from "../lib/seo";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Inkwell | Editorial Next.js SEO Portfolio",
-  description: SITE_DESCRIPTION,
+  ...buildHomeMetadata(),
+  metadataBase: new URL(getSiteUrl()),
 };
 
 export default function RootLayout({

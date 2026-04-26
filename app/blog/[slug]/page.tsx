@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,6 +7,11 @@ import { compileMDX } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 import { CodeBlock } from "../../../components/mdx/CodeBlock";
 import { getAllPosts, getPostBySlug } from "../../../lib/posts";
+import {
+  buildArticleJsonLd,
+  buildArticleMetadata,
+  buildBreadcrumbJsonLd,
+} from "../../../lib/seo";
 
 type PageProps = {
   params: Promise<{
@@ -59,6 +65,17 @@ export async function generateStaticParams() {
   return posts.map((post) => ({ slug: post.slug }));
 }
 
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await getPostBySlug(slug);
+
+  if (!post) {
+    return {};
+  }
+
+  return buildArticleMetadata(post);
+}
+
 export default async function PostPage({ params }: PageProps) {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
@@ -80,6 +97,24 @@ export default async function PostPage({ params }: PageProps) {
 
   return (
     <main className="mx-auto w-full max-w-6xl px-6 py-16 sm:px-10 lg:px-12">
+      <script
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(buildArticleJsonLd(post)),
+        }}
+        type="application/ld+json"
+      />
+      <script
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            buildBreadcrumbJsonLd([
+              { name: "Home", path: "/" },
+              { name: "Blog", path: "/blog" },
+              { name: post.title, path: `/blog/${post.slug}` },
+            ]),
+          ),
+        }}
+        type="application/ld+json"
+      />
       <article className="mx-auto max-w-3xl">
         <div className="rounded-[2rem] border border-black/8 bg-white p-8 shadow-[0_24px_80px_rgba(15,23,42,0.08)] sm:p-10">
           <p className="text-sm font-semibold uppercase tracking-[0.24em] text-blue-600">

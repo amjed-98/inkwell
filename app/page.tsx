@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import {
   PRIMARY_NAV,
@@ -5,10 +6,19 @@ import {
   SITE_NAME,
   SITE_TAGLINE,
 } from "../lib/constants";
+import { buildHomeMetadata, buildWebsiteJsonLd } from "../lib/seo";
+
+export const metadata: Metadata = buildHomeMetadata();
 
 export default function Home() {
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-6xl flex-col justify-center px-6 py-20 font-sans sm:px-10 lg:px-12">
+      <script
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(buildWebsiteJsonLd()),
+        }}
+        type="application/ld+json"
+      />
       <div className="max-w-3xl rounded-[2rem] border border-black/8 bg-white p-10 shadow-[0_30px_80px_rgba(15,23,42,0.08)] sm:p-14">
         <p className="text-sm font-semibold uppercase tracking-[0.24em] text-blue-600">
           {SITE_NAME}
