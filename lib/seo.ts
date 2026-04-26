@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
-import {
-  SITE_DESCRIPTION,
-  SITE_NAME,
-  SITE_TAGLINE,
-} from "./constants";
-import type { PostDocument } from "./posts";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE } from "./constants";
+import type { CategorySummary, PostDocument, PostSummary } from "./posts";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://inkwell-demo.netlify.app";
 const DEFAULT_OG_IMAGE = "/images/inkwell-og.svg";
@@ -98,6 +94,73 @@ export function buildArticleMetadata(post: PostDocument): Metadata {
   };
 }
 
+export function buildBlogMetadata(): Metadata {
+  const canonical = toAbsoluteUrl("/blog");
+
+  return {
+    title: `Blog | ${SITE_NAME}`,
+    description:
+      "Browse featured writing, technical essays, and editorial systems notes from the Inkwell publication archive.",
+    alternates: {
+      canonical,
+    },
+    openGraph: {
+      type: "website",
+      url: canonical,
+      title: `Blog | ${SITE_NAME}`,
+      description:
+        "Browse featured writing, technical essays, and editorial systems notes from the Inkwell publication archive.",
+      siteName: SITE_NAME,
+      images: [
+        {
+          url: toAbsoluteUrl(DEFAULT_OG_IMAGE),
+          alt: `${SITE_NAME} social preview`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `Blog | ${SITE_NAME}`,
+      description:
+        "Browse featured writing, technical essays, and editorial systems notes from the Inkwell publication archive.",
+      images: [toAbsoluteUrl(DEFAULT_OG_IMAGE)],
+    },
+  };
+}
+
+export function buildCategoryMetadata(category: CategorySummary): Metadata {
+  const canonical = toAbsoluteUrl(`/blog/category/${category.slug}`);
+  const title = `${category.name} articles | ${SITE_NAME}`;
+  const description = `Browse ${category.postCount} article${category.postCount === 1 ? "" : "s"} in ${category.name} on ${SITE_NAME}.`;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical,
+    },
+    openGraph: {
+      type: "website",
+      url: canonical,
+      title,
+      description,
+      siteName: SITE_NAME,
+      images: [
+        {
+          url: toAbsoluteUrl(DEFAULT_OG_IMAGE),
+          alt: `${SITE_NAME} social preview`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [toAbsoluteUrl(DEFAULT_OG_IMAGE)],
+    },
+  };
+}
+
 export function buildWebsiteJsonLd() {
   return {
     "@context": "https://schema.org",
@@ -129,6 +192,38 @@ export function buildArticleJsonLd(post: PostDocument) {
       "@type": "Organization",
       name: SITE_NAME,
     },
+  };
+}
+
+export function buildCollectionPageJsonLd({
+  description,
+  name,
+  path,
+  posts,
+}: {
+  description: string;
+  name: string;
+  path: string;
+  posts: PostSummary[];
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name,
+    description,
+    url: toAbsoluteUrl(path),
+    isPartOf: {
+      "@type": "WebSite",
+      name: SITE_NAME,
+      url: toAbsoluteUrl("/"),
+    },
+    hasPart: posts.map((post) => ({
+      "@type": "BlogPosting",
+      headline: post.title,
+      url: toAbsoluteUrl(`/blog/${post.slug}`),
+      datePublished: post.publishedAt,
+      articleSection: post.category,
+    })),
   };
 }
 

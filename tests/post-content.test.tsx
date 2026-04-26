@@ -29,7 +29,7 @@ describe("post content pipeline", () => {
       { slug: "introducing-inkwell" },
     ]);
 
-    render(await BlogPage());
+    render(await BlogPage({}));
 
     expect(
       screen.getByRole("link", {
