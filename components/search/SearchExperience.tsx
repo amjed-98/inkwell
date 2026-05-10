@@ -56,14 +56,12 @@ export function SearchExperience({
   const resultsAnnouncement = buildResultsAnnouncement(results.length, query);
 
   return (
-    <section className="mt-12 rounded-[2rem] border border-black/8 bg-white p-8 shadow-[0_24px_80px_rgba(15,23,42,0.08)] sm:p-10">
+    <section className="soft-panel mt-12 p-6 sm:p-8">
       <label className="block" htmlFor="search-posts">
-        <span className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-600">
-          Search posts
-        </span>
+        <span className="eyebrow">Search posts</span>
         <input
           aria-describedby="search-helper"
-          className="mt-4 w-full rounded-2xl border border-neutral-300 bg-white px-5 py-4 text-base text-neutral-950 outline-none transition focus:border-blue-500"
+          className="mt-4 w-full rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] px-5 py-4 text-base text-[var(--foreground)] outline-none transition focus:border-[var(--accent)]"
           id="search-posts"
           name="q"
           onChange={(event) => setQuery(event.target.value)}
@@ -72,16 +70,16 @@ export function SearchExperience({
           value={query}
         />
       </label>
-      <p className="mt-3 text-sm text-neutral-500" id="search-helper">
+      <p className="mt-3 text-sm text-[var(--muted)]" id="search-helper">
         Results update instantly and the query stays reflected in the URL for sharing.
       </p>
-      <div className="mt-8 flex items-center justify-between gap-4 text-sm text-neutral-500">
+      <div className="mt-8 flex items-center justify-between gap-4 text-sm text-[var(--muted)]">
         <p aria-atomic="true" aria-live="polite" role="status">
           {resultsAnnouncement}
         </p>
         {hasQuery ? (
           <Link
-            className="font-medium text-blue-700 underline decoration-blue-200 underline-offset-4"
+            className="text-link"
             href="/search"
           >
             Clear search
@@ -92,27 +90,29 @@ export function SearchExperience({
         <div className="mt-8 grid gap-5">
           {results.map((item) => (
             <article
-              className="rounded-[1.5rem] border border-neutral-200 bg-neutral-50 px-6 py-5"
+              className="rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] px-6 py-5 transition hover:border-[var(--accent)]"
               key={item.slug}
             >
-              <div className="flex flex-wrap gap-3 text-sm text-neutral-500">
-                <span className="font-medium text-neutral-800">{item.category}</span>
+              <div className="meta-row">
+                <span className="font-semibold text-[var(--foreground)]">{item.category}</span>
+                <span className="meta-dot" aria-hidden="true" />
                 <span>{item.publishedAtLabel}</span>
+                <span className="meta-dot" aria-hidden="true" />
                 <span>{item.authorName}</span>
               </div>
-              <h2 className="mt-3 text-2xl font-semibold tracking-tight text-neutral-950">
-                <Link className="transition hover:text-blue-700" href={item.href}>
+              <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight tracking-normal text-[var(--foreground)]">
+                <Link className="transition hover:text-[var(--accent)]" href={item.href}>
                   {item.title}
                 </Link>
               </h2>
-              <p className="mt-3 text-base leading-7 text-neutral-600">{item.description}</p>
+              <p className="mt-3 text-base leading-7 text-[var(--muted-strong)]">{item.description}</p>
             </article>
           ))}
         </div>
       ) : (
-        <div className="mt-8 rounded-[1.5rem] border border-dashed border-neutral-300 px-6 py-10 text-center">
-          <p className="text-lg font-medium text-neutral-900">No posts match that search yet.</p>
-          <p className="mt-3 text-sm text-neutral-500">
+        <div className="mt-8 rounded-[var(--radius-md)] border border-dashed border-[var(--border-strong)] px-6 py-10 text-center">
+          <p className="text-lg font-semibold text-[var(--foreground)]">No posts match that search yet.</p>
+          <p className="mt-3 text-sm text-[var(--muted)]">
             Try a category like Editorial systems or Search experience.
           </p>
         </div>

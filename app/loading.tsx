@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <div className="mx-auto flex min-h-[50vh] w-full max-w-6xl items-center px-6 py-12 sm:px-10 lg:px-12">
+    <div className="page-shell flex min-h-[50vh] items-center">
       <div
         aria-live="polite"
         className="space-y-4"
@@ -9,15 +9,15 @@ export default function Loading() {
         <p className="sr-only">Loading the Inkwell shell.</p>
         <div
           aria-hidden="true"
-          className="h-3 w-32 animate-pulse rounded-full bg-[var(--color-border)]"
+          className="h-3 w-32 animate-pulse rounded-full bg-[var(--border)]"
         />
         <div
           aria-hidden="true"
-          className="h-10 w-72 animate-pulse rounded-full bg-[var(--color-border)]"
+          className="h-10 w-72 animate-pulse rounded-full bg-[var(--border)]"
         />
         <div
           aria-hidden="true"
-          className="h-3 w-96 animate-pulse rounded-full bg-[var(--color-border)]"
+          className="h-3 w-96 animate-pulse rounded-full bg-[var(--border)]"
         />
       </div>
     </div>

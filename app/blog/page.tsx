@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { BlogArchiveExperience } from "../../components/blog/BlogArchiveExperience";
+import { NewsletterCta } from "../../components/blog/NewsletterCta";
+import { PostCard } from "../../components/blog/PostCard";
 import {
   getAllCategories,
   getAllPosts,
@@ -26,7 +27,7 @@ export default async function BlogPage() {
     "A publication about performant frontend systems and modern web architecture.";
 
   return (
-    <main className="mx-auto w-full max-w-6xl px-6 py-20 sm:px-10 lg:px-12" id="content">
+    <main className="page-shell" id="content">
       <script
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(
@@ -51,44 +52,42 @@ export default async function BlogPage() {
         }}
         type="application/ld+json"
       />
-      <div className="max-w-2xl">
-        <p className="text-sm font-semibold uppercase tracking-[0.24em] text-blue-600">
-          Inkwell archive
-        </p>
-        <h1 className="mt-4 text-4xl font-bold tracking-tight">
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-end">
+        <div>
+          <p className="eyebrow">Inkwell archive</p>
+          <h1 className="section-title mt-5 max-w-4xl">
           {archiveDescription}
-        </h1>
-        <p className="mt-6 text-lg leading-8 text-[var(--color-muted)]">
-          The archive starts with one full MDX article so the content model,
-          routing, and editorial surface are proven end to end before the
-          library expands.
-        </p>
+          </h1>
+          <p className="editorial-lede mt-6 max-w-2xl">
+            Essays are organized for fast discovery, clean category browsing,
+            and a focused path from preview to reading.
+          </p>
+        </div>
+        <div className="soft-panel p-5">
+          <p className="text-sm font-semibold text-[var(--foreground)]">Archive signal</p>
+          <dl className="mt-5 grid grid-cols-2 gap-4">
+            <div>
+              <dt className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--muted)]">
+                Posts
+              </dt>
+              <dd className="mt-1 text-3xl font-semibold tracking-tight">{allPosts.length}</dd>
+            </div>
+            <div>
+              <dt className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--muted)]">
+                Topics
+              </dt>
+              <dd className="mt-1 text-3xl font-semibold tracking-tight">{categories.length}</dd>
+            </div>
+          </dl>
+        </div>
       </div>
       {featuredPost ? (
-        <article className="mt-12 rounded-[2rem] border border-blue-200 bg-blue-50/70 p-8 shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-700">
-            Featured post
-          </p>
-          <h2 className="mt-4 text-3xl font-semibold tracking-tight text-neutral-950">
-            {featuredPost.title}
-          </h2>
-          <p className="mt-4 max-w-3xl text-lg leading-8 text-neutral-700">
-            {featuredPost.description}
-          </p>
-          <div className="mt-6 flex flex-wrap gap-3 text-sm text-neutral-600">
-            <span className="font-medium text-neutral-900">{featuredPost.author.name}</span>
-            <span>{featuredPost.category}</span>
-            <span>{featuredPost.publishedAtLabel}</span>
-          </div>
-          <Link
-            className="mt-8 inline-flex items-center rounded-full bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
-            href={`/blog/${featuredPost.slug}`}
-          >
-            Read the featured post
-          </Link>
-        </article>
+        <div className="mt-12">
+          <PostCard post={featuredPost} priority variant="feature" />
+        </div>
       ) : null}
       <BlogArchiveExperience categories={categories} posts={allPosts} />
+      <NewsletterCta />
     </main>
   );
 }

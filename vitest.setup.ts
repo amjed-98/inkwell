@@ -9,6 +9,9 @@ vi.mock("next/font/google", () => ({
   Geist_Mono: () => ({
     variable: "font-geist-mono",
   }),
+  Newsreader: () => ({
+    variable: "font-newsreader",
+  }),
 }));
 
 vi.mock("next/image", () => ({

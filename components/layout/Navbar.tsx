@@ -17,23 +17,23 @@ export function Navbar() {
   }
 
   return (
-    <header className="border-b border-[var(--color-border)] bg-[color:var(--color-surface)]/90 backdrop-blur">
-      <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4 sm:px-10 lg:px-12">
+    <header className="sticky top-0 z-30 border-b border-[var(--border)] bg-[color:var(--surface-elevated)]/90 backdrop-blur-xl">
+      <div className="mx-auto flex w-full max-w-[var(--content-width)] flex-wrap items-center justify-between gap-3 px-4 py-3 sm:flex-nowrap sm:px-6">
         <Link
           aria-current={pathname === "/" ? "page" : undefined}
-          className="text-lg font-semibold tracking-tight text-[var(--color-foreground)]"
+          className="font-serif text-2xl font-semibold tracking-normal text-[var(--foreground)]"
           href="/"
         >
           {SITE_NAME}
         </Link>
-        <div className="flex items-center gap-3 sm:gap-6">
+        <div className="order-3 w-full sm:order-2 sm:w-auto">
           <nav aria-label="Primary navigation">
-            <ul className="flex items-center gap-4 text-sm text-[var(--color-muted)]">
+            <ul className="flex items-center gap-1 overflow-x-auto text-sm text-[var(--muted)] sm:gap-2">
               {PRIMARY_NAV.map((item) => (
                 <li key={item.href}>
                   <Link
                     aria-current={isCurrentRoute(item.href) ? "page" : undefined}
-                    className="transition hover:text-[var(--color-foreground)]"
+                    className="nav-link"
                     href={item.href}
                   >
                     {item.label}
@@ -42,6 +42,8 @@ export function Navbar() {
               ))}
             </ul>
           </nav>
+        </div>
+        <div className="order-2 sm:order-3">
           <ThemeToggle />
         </div>
       </div>

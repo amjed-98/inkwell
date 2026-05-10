@@ -31,7 +31,7 @@ export function ThemeToggle() {
     <button
       aria-label={`Switch to ${nextTheme} mode`}
       aria-pressed={theme === "dark"}
-      className="inline-flex h-10 items-center justify-center rounded-full border border-[var(--color-border)] px-4 text-sm font-medium text-[var(--color-foreground)] transition hover:border-[var(--color-foreground)]"
+      className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-full border border-[var(--border)] px-4 text-sm font-semibold text-[var(--foreground)] transition hover:border-[var(--foreground)] hover:bg-[var(--surface-muted)]"
       onClick={() => {
         setTheme(nextTheme);
         applyTheme(nextTheme);

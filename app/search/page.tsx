@@ -11,15 +11,13 @@ export default async function SearchPage() {
   const items = await buildSearchIndex();
 
   return (
-    <main className="mx-auto w-full max-w-6xl px-6 py-20 sm:px-10 lg:px-12" id="content">
+    <main className="page-shell" id="content">
       <div className="max-w-3xl">
-        <p className="text-sm font-semibold uppercase tracking-[0.24em] text-blue-600">
-          Search archive
-        </p>
-        <h1 className="mt-4 text-4xl font-bold tracking-tight text-neutral-950 sm:text-5xl">
+        <p className="eyebrow">Search archive</p>
+        <h1 className="section-title mt-5">
           Search the Inkwell archive
         </h1>
-        <p className="mt-6 text-lg leading-8 text-neutral-600">
+        <p className="editorial-lede mt-6">
           This search surface ships post metadata only, stays shareable through the URL,
           and remains excluded from indexing.
         </p>
